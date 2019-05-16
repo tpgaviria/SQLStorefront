@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS storeinventory;
 CREATE DATABASE storeinventory;
 
 USE storeinventory;
