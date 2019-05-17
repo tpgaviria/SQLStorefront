@@ -42,6 +42,7 @@ function promptCustomer(res) {
 
         // if 'q' is entered, app closes
         if (answer.selection.toUpperCase() === 'Q') {
+            console.log('Goodbye.');
             process.exit();
         }
 
@@ -49,16 +50,22 @@ function promptCustomer(res) {
         for (var i = 0; i < res.length; i++) {
             if (res[i].item_id === parseInt(answer.selection)) {
                 validChoice = true;
-                promptQuantity(res[i], answer);
+                promptQuantity(res[i], res);
                 break;
             }
         }
 
-        // if input does not match an available product, table and prompt are shown again
         if (!validChoice) {
             console.log('Not a valid selection.');
             promptCustomer(res);
+            // break;
         }
+
+        // // if input does not match an available product, table and prompt are shown again
+        // if (!validChoice) {
+        //     console.log('Not a valid selection.');
+        //     promptCustomer(res);
+        // }
     })
 }
 
