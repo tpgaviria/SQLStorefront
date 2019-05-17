@@ -70,4 +70,5 @@ CREATE TABLE products
             ('sweaters', 75, 150),
             ('underwear', 30, 250);
 
-        
+        SELECT *
+        FROM products;

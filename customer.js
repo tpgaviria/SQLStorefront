@@ -24,6 +24,8 @@ function createTable() {
     connection.query('SELECT * FROM products', function (err, res) {
         console.table(res);
         promptCustomer(res);
+
+
     });
 }
 
@@ -70,18 +72,18 @@ function promptQuantity(product, productList) {
 
         // if there is enough inventory, products table is updated, total price is shown, and table/prompt are shown again
         if (product.stock_quantity >= answer.quantity) {
-                connection.query('UPDATE products SET stock_quantity="' + (product.stock_quantity - answer.quantity) + '", product_sales="' + (product.product_sales + answer.quantity * product.price) + '" WHERE item_id="' + product.item_id + '"', function () {
-                    connection.query('UPDATE departments SET total_sales=total_sales+' + (answer.quantity * product.price) + ' WHERE department_name="' + product.department_name + '"', function () {
-                        console.log('Purchased ' + answer.quantity + ' of the item "' + product.product_name + '" for a total of $' + ((answer.quantity * product.price).toFixed(2)) + '.')
-                    });
-                    createTable();
-                })
-            }
+            connection.query('UPDATE products SET stock_quantity="' + (product.stock_quantity - answer.quantity) + '", product_sales="' + (product.product_sales + answer.quantity * product.price) + '" WHERE item_id="' + product.item_id + '"', function () {
+                connection.query('UPDATE departments SET total_sales=total_sales+' + (answer.quantity * product.price) + ' WHERE department_name="' + product.department_name + '"', function () {
+                    console.log('Purchased ' + answer.quantity + ' of the item "' + product.product_name + '" for a total of $' + ((answer.quantity * product.price).toFixed(2)) + '.')
+                });
+                createTable();
+            })
+        }
 
-            // if there is not enough inventory, message will show and table/prompt will show again
-            else if (product.stock_quantity < answer.quantity) {
-                console.log('There is only ' + product.stock_quantity + ' left in inventory to buy. Cannot complete purchase.');
-                promptCustomer(productList);
-            }
+        // if there is not enough inventory, message will show and table/prompt will show again
+        else if (product.stock_quantity < answer.quantity) {
+            console.log('There is only ' + product.stock_quantity + ' left in inventory to buy. Cannot complete purchase.');
+            promptCustomer(productList);
+        }
     });
 }
