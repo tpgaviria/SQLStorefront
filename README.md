@@ -4,7 +4,8 @@ CLI Storefront built using Node.js and MySQL
 
 ## Demo
 
-![](sqlscheme.gif)
+### SQL Database / Tables Created
+![Schema - Database Initalize Gif Demo](sqlschema.gif)
 
 
 ## Code Explanation
