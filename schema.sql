@@ -44,31 +44,6 @@ CREATE TABLE products
         ('t-shirt', 0, 'tops', 7.99, 50),
         ('pushup bra', 0, 'underwear', 17.99, 50);
 
-    CREATE TABLE departments
-    (
-        department_id INTEGER(4)
-        AUTO_INCREMENT NOT NULL,
-        deparment_name VARCHAR
-        (30) NOT NULL,
-        overhead_costs DECIMAL
-        (10,2) NOT NULL,
-        total_sales DECIMAL
-        (10,2) NOT NULL,
-        PRIMARY KEY
-        (department_id)
-    );
 
-        SELECT *
-        FROM departments;
-
-        INSERT INTO departments
-            (deparment_name, overhead_costs, total_sales)
-        VALUES
-            ('bottoms', 100, 200),
-            ('tops', 70, 300),
-            ('dresses', 80, 250),
-            ('sweaters', 75, 150),
-            ('underwear', 30, 250);
-
-        SELECT *
-        FROM products;
+    SELECT *
+    FROM products;

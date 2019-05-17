@@ -15,14 +15,14 @@ var connection = mysql.createConnection({
 // if connection successful, table is created
 connection.connect(function (err) {
     if (err) throw err;
-    console.log('connection successful');
+    console.log('\n                        --------- Successfully connected to MySQL database. ---------\n');
     createTable();
 });
 
 // shows product table from storeinventory sql database
 function createTable() {
     connection.query('SELECT * FROM products', function (err, res) {
-        console.table(res);
+        console.table(res, ['item_id', 'product_name', 'price', 'stock_quantity']);
         promptCustomer(res);
 
 
@@ -34,7 +34,7 @@ function promptCustomer(res) {
     inquirer.prompt([{
         type: 'input',
         name: 'selection',
-        message: 'What is the ID of the product you would like to purchase? [ or Q to quit ]'
+        message: '        --------- What is the ID of the product you would like to purchase? [ or Q to quit ]'
     }]).then(function (answer) {
 
         // sets 'validChoice' to false by default
@@ -55,17 +55,12 @@ function promptCustomer(res) {
             }
         }
 
+        // if customer selection does not match an existing product, error message shown and prompt is displayed again
         if (!validChoice) {
             console.log('Not a valid selection.');
             promptCustomer(res);
-            // break;
         }
 
-        // // if input does not match an available product, table and prompt are shown again
-        // if (!validChoice) {
-        //     console.log('Not a valid selection.');
-        //     promptCustomer(res);
-        // }
     })
 }
 
@@ -74,14 +69,14 @@ function promptQuantity(product, productList) {
     inquirer.prompt({
         type: 'input',
         name: 'quantity',
-        message: 'How many would you like to buy?'
+        message: '        --------- How many would you like to buy?'
     }).then(function (answer) {
 
         // if there is enough inventory, products table is updated, total price is shown, and table/prompt are shown again
         if (product.stock_quantity >= answer.quantity) {
             connection.query('UPDATE products SET stock_quantity="' + (product.stock_quantity - answer.quantity) + '", product_sales="' + (product.product_sales + answer.quantity * product.price) + '" WHERE item_id="' + product.item_id + '"', function () {
                 connection.query('UPDATE departments SET total_sales=total_sales+' + (answer.quantity * product.price) + ' WHERE department_name="' + product.department_name + '"', function () {
-                    console.log('Purchased ' + answer.quantity + ' of the item "' + product.product_name + '" for a total of $' + ((answer.quantity * product.price).toFixed(2)) + '.')
+                    console.log('\n          --------- Purchased ' + answer.quantity + ' of the item "' + product.product_name + '" for a total of $' + ((answer.quantity * product.price).toFixed(2)) + '. ---------\n')
                 });
                 createTable();
             })
