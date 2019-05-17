@@ -5,7 +5,7 @@ USE storeinventory;
 
 CREATE TABLE products
 (
-    item_id INTEGER(10)
+    item_id INTEGER(11)
     AUTO_INCREMENT NOT NULL,
     product_name VARCHAR
     (30) NOT NULL,\

@@ -60,13 +60,12 @@ function promptQuantity(product, productList) {
         if (product.stock_quantity >= answer.quantity) {
             connection.query('UPDATE products SET stock_quantity="' + (product.stock_quantity - answer.quantity) + '", product_sales="' + (product.product_sales + answer.quantity * product.price) + '" WHERE item_id="' + product.item_id + '"', function () {
                 connection.query('UPDATE departments SET total_sales=total_sales+' + (answer.quantity * product.price) + ' WHERE department_name="' + product.department_name + '"', function () {
-                    console.log('Purchased ' + product.product_name + '. Sales added to ' + product.department_name + ' department.');
-                });
+                    console.log('Purchased ' + answer.quantity + ' of the item "' + product.product_name + '" for a total of $' + ((answer.quantity * product.price).toFixed(2)) + '.')});
                 createTable();
             })
         }
-        else {
-            console.log('Not a valid selection.');
+        else if (product.stock_quantity < answer.quantity) {
+            console.log('There is only ' + product.stock_quantity + ' left in inventory to buy. Cannot complete purchase.');
             promptCustomer(productList);
         }
     });
